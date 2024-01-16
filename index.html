@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.js"></script>
+
+</head>
+<body>
+
+    <div id="app">
+     <h1>{{newText}}</h1>
+     <input type="text" v-model="text">
+     <br>
+     <input type="text" v-model="seed">
+    </div>
+    
+    <script type="module">
+        import {debounce} from 'https://cdn.jsdelivr.net/npm/@esm-bundle/lodash@4.17.21/esm/index.js'
+     
+        const createApp = Vue.createApp;
+
+        const app = createApp({
+            data(){
+                return{
+                    text:'這裡有一句話',
+                    newText:'',
+                    seed:''
+                }
+            },
+            methods:{
+
+            },
+            watch:{
+                //用data裡要watch的變數命名
+                text(cur, pre){
+                    console.log('trig watch:',cur, pre);
+                    this.newText = `加入${this.text}這句話`
+                },
+                //和v-model.lazy的差別是，lazy要和下enter或外面點一下觸發change才會動
+                seed:debounce(function(current){
+                    console.log('debounce觸發', current)
+                }, 1000)
+
+            }
+        })
+
+        app.mount('#app')
+
+    </script>
+</body>
+</html>
